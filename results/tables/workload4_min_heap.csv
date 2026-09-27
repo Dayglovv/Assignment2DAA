@@ -1,0 +1,5 @@
+n,insert_ns,extract_min_ns,insert_comparisons,extract_min_comparisons,sorted
+100,19200.0,45120.0,198.8,853.0,true
+1000,39080.0,83160.0,2270.2,14960.8,true
+10000,388760.0,753020.0,22721.8,216635.0,true
+100000,1723760.0,6428660.0,227803.0,2831808.2,true

@@ -1,0 +1,5 @@
+n,array_insert_beginning_ns,array_remove_beginning_ns,array_insert_middle_ns,array_remove_middle_ns,list_insert_beginning_ns,list_remove_beginning_ns,list_insert_middle_ns,list_remove_middle_ns,array_insert_beginning_movements,array_remove_beginning_movements,array_insert_middle_movements,array_remove_middle_movements,list_insert_beginning_accesses,list_remove_beginning_accesses,list_insert_middle_accesses,list_remove_middle_accesses
+100,1252460.0,1525920.0,559480.0,1017280.0,48020.0,30900.0,153180.0,124300.0,600620.0,599500.0,550620.0,549500.0,0.0,0.0,49000.0,49000.0
+1000,76600.0,72680.0,64520.0,55300.0,19220.0,17820.0,583160.0,581240.0,1500780.0,1499500.0,1000780.0,999500.0,0.0,0.0,499000.0,499000.0
+10000,547980.0,485680.0,184700.0,262620.0,6800.0,2360.0,5770920.0,5806280.0,1.050974E7,1.04995E7,5509740.0,5499500.0,0.0,0.0,4999000.0,4999000.0
+100000,5414000.0,5497340.0,2276540.0,3558840.0,5880.0,1200.0,5.705768E7,5.724392E7,1.004995E8,1.004995E8,5.04995E7,5.04995E7,0.0,0.0,4.9999E7,4.9999E7
