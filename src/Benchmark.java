@@ -7,8 +7,8 @@ public class Benchmark {
     public static void main(String[] args) {
         System.out.println("Starting benchmark...");
         runRandomAccessTest();
+        runSearchTest();
     }
-
     public static int[] generateRandomData(int n) {
         int[] data = new int[n];
         for (int i = 0; i < n; i++) {
@@ -16,7 +16,6 @@ public class Benchmark {
         }
         return data;
     }
-
     public static int[] generateIndexes(int n) {
         int[] indexes = new int[ACCESS_COUNT];
         for (int i = 0; i < ACCESS_COUNT; i++) {
@@ -24,7 +23,13 @@ public class Benchmark {
         }
         return indexes;
     }
-
+    public static int[] generateSearchValues() {
+        int[] values = new int[ACCESS_COUNT];
+        for (int i = 0; i < ACCESS_COUNT; i++) {
+            values[i] = random.nextInt(100000);
+        }
+        return values;
+    }
     public static void runRandomAccessTest() {
         System.out.println();
         System.out.println("=== Random Access Test ===");
@@ -50,7 +55,6 @@ public class Benchmark {
                 }
                 long end = System.nanoTime();
                 arrayTotal += end - start;
-
                 start = System.nanoTime();
                 int listResult = 0;
                 for (int index : indexes) {
@@ -59,11 +63,55 @@ public class Benchmark {
                 end = System.nanoTime();
                 listTotal += end - start;
             }
+            double arrayAverage = arrayTotal / (double) REPEATS;
+            double listAverage = listTotal / (double) REPEATS;
+            System.out.println(
+                    n + ", "
+                            + arrayAverage + ", "
+                            + listAverage
+            );
+        }
+    }
 
-            double arrayAverage =
-                    arrayTotal / (double) REPEATS;
-            double listAverage =
-                    listTotal / (double) REPEATS;
+    public static void runSearchTest() {
+        System.out.println();
+        System.out.println("=== Search Test ===");
+        System.out.println("n, DynamicArray(ns), LinkedList(ns)");
+        for (int n : SIZES) {
+            int[] data = generateRandomData(n);
+            int[] searchValues = generateSearchValues();
+            DynamicArray array = new DynamicArray();
+            for (int x : data) {
+                array.add(x);
+            }
+            LinkedList list = new LinkedList();
+            for (int x : data) {
+                list.add(x);
+            }
+            long arrayTotal = 0;
+            long listTotal = 0;
+            for (int repeat = 0; repeat < REPEATS; repeat++) {
+                long start = System.nanoTime();
+                int arrayFound = 0;
+                for (int value : searchValues) {
+                    if (array.contains(value)) {
+                        arrayFound++;
+                    }
+                }
+                long end = System.nanoTime();
+                arrayTotal += end - start;
+                start = System.nanoTime();
+                int listFound = 0;
+                for (int value : searchValues) {
+                    if (list.contains(value)) {
+                        listFound++;
+                    }
+                }
+                end = System.nanoTime();
+                listTotal += end - start;
+            }
+            double arrayAverage = arrayTotal / (double) REPEATS;
+            double listAverage = listTotal / (double) REPEATS;
             System.out.println(
                     n + ", "
                             + arrayAverage + ", "

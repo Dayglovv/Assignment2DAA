@@ -1,6 +1,7 @@
 public class LinkedList {
     private Node head;
     private int size;
+    private long accesses;
     private class Node {
         int data;
         Node next;
@@ -12,14 +13,13 @@ public class LinkedList {
 
     public void add(int x) {
         Node newNode = new Node(x);
-
         if (head == null) {
             head = newNode;
         } else {
             Node current = head;
-
             while (current.next != null) {
                 current = current.next;
+                accesses++;
             }
             current.next = newNode;
         }
@@ -31,7 +31,6 @@ public class LinkedList {
             throw new IndexOutOfBoundsException();
         }
         Node newNode = new Node(x);
-
         if (index == 0) {
             newNode.next = head;
             head = newNode;
@@ -39,6 +38,7 @@ public class LinkedList {
             Node current = head;
             for (int i = 0; i < index - 1; i++) {
                 current = current.next;
+                accesses++;
             }
             newNode.next = current.next;
             current.next = newNode;
@@ -50,7 +50,6 @@ public class LinkedList {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
-
         if (index == 0) {
             int removed = head.data;
             head = head.next;
@@ -58,9 +57,9 @@ public class LinkedList {
             return removed;
         }
         Node current = head;
-
         for (int i = 0; i < index - 1; i++) {
             current = current.next;
+            accesses++;
         }
         int removed = current.next.data;
         current.next = current.next.next;
@@ -89,8 +88,14 @@ public class LinkedList {
         }
         return false;
     }
-
     public int size() {
         return size;
+    }
+
+    public long getAccesses() {
+        return accesses;
+    }
+    public void resetAccesses() {
+        accesses = 0;
     }
 }
