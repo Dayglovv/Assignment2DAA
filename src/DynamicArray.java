@@ -68,15 +68,12 @@ public class DynamicArray {
         }
         return false;
     }
-
     public int size() {
         return size;
     }
-
     public long getMovements() {
         return movements;
     }
-
     public void resetMovements() {
         movements = 0;
     }

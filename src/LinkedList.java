@@ -11,6 +11,12 @@ public class LinkedList {
         }
     }
 
+    public LinkedList() {
+        head = null;
+        size = 0;
+        accesses = 0;
+    }
+
     public void add(int x) {
         Node newNode = new Node(x);
         if (head == null) {
@@ -91,7 +97,6 @@ public class LinkedList {
     public int size() {
         return size;
     }
-
     public long getAccesses() {
         return accesses;
     }
