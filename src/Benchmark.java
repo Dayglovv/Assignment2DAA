@@ -10,6 +10,7 @@ public class Benchmark {
         runRandomAccessTest();
         runSearchTest();
         runInsertionRemovalTest();
+        runHeapTest();
     }
     public static int[] generateRandomData(int n) {
         int[] data = new int[n];
@@ -266,6 +267,73 @@ public class Benchmark {
                             + listRemoveBeginningAverage + ", "
                             + listInsertMiddleAverage + ", "
                             + listRemoveMiddleAverage
+            );
+        }
+    }
+        // ==========================================
+        // WORKLOAD 4
+        // Min-Heap Priority Processing
+        // ==========================================
+
+    public static void runHeapTest() {
+        System.out.println();
+        System.out.println("=== Min-Heap Test ===");
+        System.out.println(
+                "n, Insert(ns), ExtractMin(ns), " +
+                        "InsertComparisons, ExtractComparisons, Sorted"
+        );
+        for (int n : SIZES) {
+            long insertTotal = 0;
+            long extractTotal = 0;
+            long insertComparisonsTotal = 0;
+            long extractComparisonsTotal = 0;
+            boolean allSorted = true;
+            for (int repeat = 0; repeat < REPEATS; repeat++) {
+                // Generate data before timing
+                int[] data = generateRandomData(n);
+                MinHeap heap = new MinHeap();
+                // -----------------------------
+                // Insert
+                // -----------------------------
+                long start = System.nanoTime();
+                for (int value : data) {
+                    heap.insert(value);
+                }
+                long end = System.nanoTime();
+                insertTotal += end - start;
+                insertComparisonsTotal += heap.getComparisons();
+                // -----------------------------
+                // Extract Min
+                // -----------------------------
+                heap.resetComparisons();
+                start = System.nanoTime();
+                int previous = Integer.MIN_VALUE;
+                for (int i = 0; i < n; i++) {
+                    int current = heap.extractMin();
+                    if (current < previous) {
+                        allSorted = false;
+                    }
+                    previous = current;
+                }
+                end = System.nanoTime();
+                extractTotal += end - start;
+                extractComparisonsTotal += heap.getComparisons();
+            }
+            double insertAverage =
+                    insertTotal / (double) REPEATS;
+            double extractAverage =
+                    extractTotal / (double) REPEATS;
+            double insertComparisonsAverage =
+                    insertComparisonsTotal / (double) REPEATS;
+            double extractComparisonsAverage =
+                    extractComparisonsTotal / (double) REPEATS;
+            System.out.println(
+                    n + ", "
+                            + insertAverage + ", "
+                            + extractAverage + ", "
+                            + insertComparisonsAverage + ", "
+                            + extractComparisonsAverage + ", "
+                            + allSorted
             );
         }
     }

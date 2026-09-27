@@ -1,12 +1,14 @@
 public class MinHeap {
     private int[] heap;
     private int size;
+    private long comparisons;
     public MinHeap() {
         heap = new int[10];
         size = 0;
+        comparisons = 0;
     }
 
-    public void insert(int x) {
+    public void insert(int value) {
         if (size == heap.length) {
             int[] newHeap = new int[heap.length * 2];
             for (int i = 0; i < heap.length; i++) {
@@ -14,18 +16,18 @@ public class MinHeap {
             }
             heap = newHeap;
         }
-
-        heap[size] = x;
+        heap[size] = value;
         int current = size;
         size++;
         while (current > 0) {
             int parent = (current - 1) / 2;
-            if (heap[parent] <= heap[current]) {
+            comparisons++;
+            if (heap[current] >= heap[parent]) {
                 break;
             }
-            int temp = heap[parent];
-            heap[parent] = heap[current];
-            heap[current] = temp;
+            int temp = heap[current];
+            heap[current] = heap[parent];
+            heap[parent] = temp;
             current = parent;
         }
     }
@@ -48,25 +50,34 @@ public class MinHeap {
         while (true) {
             int left = current * 2 + 1;
             int right = current * 2 + 2;
-            int smallest = current;
-            if (left < size && heap[left] < heap[smallest]) {
-                smallest = left;
+            if (left >= size) {
+                break;
             }
-            if (right < size && heap[right] < heap[smallest]) {
-                smallest = right;
+            int smallerChild = left;
+            if (right < size) {
+                comparisons++;
+                if (heap[right] < heap[left]) {
+                    smallerChild = right;
+                }
             }
-            if (smallest == current) {
+            comparisons++;
+            if (heap[current] <= heap[smallerChild]) {
                 break;
             }
             int temp = heap[current];
-            heap[current] = heap[smallest];
-            heap[smallest] = temp;
-            current = smallest;
+            heap[current] = heap[smallerChild];
+            heap[smallerChild] = temp;
+            current = smallerChild;
         }
         return min;
     }
-
     public int size() {
         return size;
+    }
+    public long getComparisons() {
+        return comparisons;
+    }
+    public void resetComparisons() {
+        comparisons = 0;
     }
 }
